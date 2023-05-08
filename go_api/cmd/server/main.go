@@ -1,26 +1,27 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"go_api/internal/comment/db"
+	"go_api/internal/db"
 )
 
 func Run() error {
 	fmt.Println("Application running")
 	db, err := db.NewDatabase()
 	if err != nil {
-		fmt.Println("Fail to connect database")
+		fmt.Println("Failed to connect ot the  database")
 		return err
 	}
-	if err := db.Ping(context.Background()); err != nil {
-		return nil
+	if err := db.MigrateDB(); err != nil {
+		fmt.Println("failed to migrate database")
+		return err
 	}
+	fmt.Println("successfully connected and pinged database")
+
 	return nil
 }
 
 func main() {
-	fmt.Println("Hello world")
 	if err := Run(); err != nil {
 		fmt.Println(err)
 	}
