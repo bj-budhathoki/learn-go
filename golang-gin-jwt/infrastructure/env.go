@@ -18,6 +18,8 @@ type Env struct {
 	JWT_SECRET               string
 	JWT_EXPIRED_IN           string
 	JWT_MAXAGE               string
+	SSL_MODE                 string
+	Environment              string
 }
 
 // NewEnv creates a new environment
@@ -29,7 +31,7 @@ func NewEnv() Env {
 
 // LoadEnv loads environment
 func (env *Env) LoadEnv() {
-	fmt.Println("hello nepal")
+	fmt.Println("load env")
 	env.POSTGRES_HOST = os.Getenv("POSTGRES_HOST")
 	env.POSTGRES_PORT = os.Getenv("POSTGRES_PORT")
 	env.POSTGRES_USER = os.Getenv("POSTGRES_USER")
@@ -41,5 +43,7 @@ func (env *Env) LoadEnv() {
 	env.JWT_SECRET = os.Getenv("JWT_SECRET")
 	env.JWT_EXPIRED_IN = os.Getenv("JWT_EXPIRED_IN")
 	env.JWT_MAXAGE = os.Getenv("JWT_MAXAGE")
+	env.SSL_MODE = os.Getenv("SSL_MODE")
+	env.Environment = os.Getenv("Environment")
 
 }
