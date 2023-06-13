@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/bj-budhathoki/learn-go/golang-gin-jwt/api/controllers"
+	"github.com/bj-budhathoki/learn-go/golang-gin-jwt/api/middlewares"
 	"github.com/bj-budhathoki/learn-go/golang-gin-jwt/api/routes"
 	"github.com/bj-budhathoki/learn-go/golang-gin-jwt/infrastructure"
 	"go.uber.org/fx"
@@ -15,6 +16,7 @@ var Module = fx.Options(
 	infrastructure.Module,
 	routes.Module,
 	controllers.Module,
+	middlewares.Module,
 	fx.Invoke(bootstrap),
 )
 

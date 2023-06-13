@@ -9,6 +9,7 @@ import (
 var Module = fx.Options(
 	fx.Provide(NewRoutes),
 	fx.Provide(NewUserRoutes),
+	fx.Provide(NewAuthRoutes),
 )
 
 type Route interface {
