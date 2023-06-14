@@ -17,9 +17,10 @@ type Route interface {
 }
 type Routes []Route
 
-func NewRoutes(userRoutes UserRoutes) Routes {
+func NewRoutes(userRoutes UserRoutes, authRoutes AuthRoutes) Routes {
 	return Routes{
 		userRoutes,
+		authRoutes,
 	}
 }
 

@@ -1,4 +1,4 @@
-package model
+package models
 
 import (
 	"time"
@@ -15,7 +15,6 @@ type User struct {
 	Role      *string    `gorm:"type:varchar(50);default:'user';not null"`
 	Provider  *string    `gorm:"type:varchar(50);default:'local';not null"`
 	Photo     *string    `gorm:"not null;default:'default.png'"`
-	Token     string     `gorm:"-" json:"token,omitempty"`
 	Verified  *bool      `gorm:"not null;default:false"`
 	CreatedAt *time.Time `gorm:"not null;default:now()"`
 	UpdatedAt *time.Time `gorm:"not null;default:now()"`

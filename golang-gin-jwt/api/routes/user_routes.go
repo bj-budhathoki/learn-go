@@ -23,8 +23,10 @@ func NewUserRoutes(router infrastructure.Router,
 
 // Setup activityParticipation routes
 func (c UserRoutes) Setup() {
-	router := c.router.Gin.Group("/users").Use(c.middlewares.Authenticate())
+	router := c.router.Gin.Group("/users")
 	{
-		router.GET("/", c.userControllers.CreateNewUser)
+		router.GET("/", c.userControllers.GetUsers)
+		router.GET("/:id", c.userControllers.GetUser)
+
 	}
 }

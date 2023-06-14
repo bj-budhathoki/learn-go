@@ -20,12 +20,12 @@ var Module = fx.Options(
 	fx.Invoke(bootstrap),
 )
 
-func bootstrap(lifecycle fx.Lifecycle, handler infrastructure.Router, routes routes.Routes, env infrastructure.Env, database infrastructure.Database, migrations infrastructure.Migrations) {
+func bootstrap(lifecycle fx.Lifecycle, handler infrastructure.Router, routes routes.Routes, env infrastructure.Env) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(context.Context) error {
 			fmt.Println("Starting fiber server on port 8080")
 			go func() {
-				migrations.Migrate()
+				// migrations.Migrate()
 				routes.Setup()
 				handler.Gin.Run(":8080")
 			}()
@@ -34,8 +34,8 @@ func bootstrap(lifecycle fx.Lifecycle, handler infrastructure.Router, routes rou
 		},
 		OnStop: func(ctx context.Context) error {
 			log.Println("Stopping Application")
-			conn, _ := database.DB.DB()
-			conn.Close()
+			// conn, _ := database.DB.DB()
+			// conn.Close()
 			return nil
 		},
 	})

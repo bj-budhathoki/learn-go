@@ -22,7 +22,8 @@ func NewAuthRoutes(router infrastructure.Router,
 func (c AuthRoutes) Setup() {
 	router := c.router.Gin.Group("/auth")
 	{
-		router.POST("/login", c.userControllers.CreateNewUser)
-		router.POST("/register", c.userControllers.CreateNewUser)
+		router.POST("/login", c.userControllers.SignIn)
+		router.POST("/register", c.userControllers.SignUp)
+		router.POST("/register", c.userControllers.LogoutUser)
 	}
 }
