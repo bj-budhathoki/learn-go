@@ -34,3 +34,31 @@ func UploadFile(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"filepath": filePath})
 }
+
+func UploadFiles(ctx *gin.Context) {
+	form, _ := ctx.MultipartForm()
+	files := form.File["images"]
+	filePaths := []string{}
+	for _, file := range files {
+		fileExt := filepath.Ext(file.Filename)
+		originalFileName := strings.TrimSuffix(filepath.Base(file.Filename), filepath.Ext(file.Filename))
+		now := time.Now()
+		filename := strings.ReplaceAll(strings.ToLower(originalFileName), " ", "-") + "-" + fmt.Sprintf("%v", now.Unix()) + fileExt
+		filePath := "http://localhost:8000/images/multiple/" + filename
+
+		filePaths = append(filePaths, filePath)
+		out, err := os.Create("./public/multiple/" + filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer out.Close()
+
+		readerFile, _ := file.Open()
+		_, err = io.Copy(out, readerFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"filepath": filePaths})
+}

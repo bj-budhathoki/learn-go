@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/bj-budhathoki/learn-go/controllers"
@@ -30,6 +31,7 @@ func main() {
 		ctx.JSON(200, gin.H{"status": "success", "message": "How to Upload Single and Multiple Files in Golang"})
 	})
 	router.POST("/upload/single", controllers.UploadFile)
-
+	router.POST("/upload/multiple", controllers.UploadFiles)
+	router.StaticFS("/images", http.Dir("public"))
 	router.Run(":8000")
 }
