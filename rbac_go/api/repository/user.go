@@ -5,6 +5,7 @@ import (
 	"boilerplate-api/infrastructure"
 	"boilerplate-api/models"
 	"boilerplate-api/paginations"
+
 	"gorm.io/gorm"
 )
 
@@ -56,8 +57,9 @@ func (c UserRepository) GetAllUsers(pagination paginations.UserPagination) (user
 }
 
 func (c UserRepository) GetOneUser(Id string) (userModel dtos.GetUserResponse, err error) {
+	user := models.User{}
 	return userModel, c.db.DB.
-		Model(&userModel).
+		Model(&user).
 		Where("id = ?", Id).
 		First(&userModel).
 		Error

@@ -136,8 +136,8 @@ func (cc UserController) GetAllUsers(c *gin.Context) {
 // @Router				/profile [get]
 func (cc UserController) GetUserProfile(c *gin.Context) {
 	userID := fmt.Sprintf("%v", c.MustGet(constants.UserID))
-
 	user, err := cc.userService.GetOneUser(userID)
+	fmt.Printf("%v", user)
 	if err != nil {
 		cc.logger.Zap.Error("Error finding user profile", err.Error())
 		err := errors.InternalError.Wrap(err, "Failed to get users profile data")

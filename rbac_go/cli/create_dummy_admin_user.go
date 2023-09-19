@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"boilerplate-api/api/services"
 	"boilerplate-api/infrastructure"
 
 	"github.com/manifoldco/promptui"
@@ -9,18 +8,15 @@ import (
 
 // CreateDummyAdminUser command
 type CreateDummyAdminUser struct {
-	logger          infrastructure.Logger
-	firebaseService services.FirebaseService
+	logger infrastructure.Logger
 }
 
 // NewCreateDummyAdminUser creates instance of admin user
 func NewCreateDummyAdminUser(
 	logger infrastructure.Logger,
-	firebaseService services.FirebaseService,
 ) CreateDummyAdminUser {
 	return CreateDummyAdminUser{
-		logger:          logger,
-		firebaseService: firebaseService,
+		logger: logger,
 	}
 }
 
@@ -38,13 +34,6 @@ func (c CreateDummyAdminUser) Run() {
 	}
 
 	password, _ := passwordPrompt.Run()
-
-	_, err := c.firebaseService.CreateUser(email, password)
-
-	if err != nil {
-		c.logger.Zap.Error("firebase dummy admin user can't be created: ", err.Error())
-		return
-	}
 
 	c.logger.Zap.Info("Firebase dummy admin user created, email: ", email, " password: ", password)
 

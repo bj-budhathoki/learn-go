@@ -10,6 +10,9 @@ type CreateUserRequestData struct {
 
 // GetUserResponse Dtos for User model
 type GetUserResponse struct {
-	models.User
-	Password string
+	Email    string      `json:"email"`
+	FullName string      `json:"full_name"`
+	Phone    string      `json:"phone"`
+	Gender   string      `json:"gender"`
+	Role     models.Role `json:"role"`
 }

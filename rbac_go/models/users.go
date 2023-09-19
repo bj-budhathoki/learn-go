@@ -21,7 +21,7 @@ type User struct {
 	Phone    string `gorm:"phone" json:"phone"  validate:"required,phone"`
 	Gender   string `gorm:"gender" json:"gender" validate:"required,gender"`
 	Password string `gorm:"password" json:"password" validate:"required"`
-	Role     Role   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
+	Role     Role   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"role"`
 }
 
 // TableName gives table name of model
@@ -36,6 +36,7 @@ func (u *User) ToMap() map[string]interface{} {
 		"full_name": u.FullName,
 		"phone":     u.Phone,
 		"gender":    u.Gender,
+		"role":      u.Role,
 	}
 }
 

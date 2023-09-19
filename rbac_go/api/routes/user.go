@@ -3,7 +3,6 @@ package routes
 import (
 	"boilerplate-api/api/controllers"
 	"boilerplate-api/api/middlewares"
-	"boilerplate-api/constants"
 	"boilerplate-api/infrastructure"
 )
 
@@ -12,7 +11,6 @@ type UserRoutes struct {
 	logger              infrastructure.Logger
 	router              infrastructure.Router
 	userController      controllers.UserController
-	middleware          middlewares.FirebaseAuthMiddleware
 	jwtMiddleware       middlewares.JWTAuthMiddleWare
 	trxMiddleware       middlewares.DBTransactionMiddleware
 	rateLimitMiddleware middlewares.RateLimitMiddleware
@@ -23,7 +21,6 @@ func NewUserRoutes(
 	logger infrastructure.Logger,
 	router infrastructure.Router,
 	userController controllers.UserController,
-	middleware middlewares.FirebaseAuthMiddleware,
 	jwtMiddleware middlewares.JWTAuthMiddleWare,
 	trxMiddleware middlewares.DBTransactionMiddleware,
 	rateLimitMiddleware middlewares.RateLimitMiddleware,
@@ -32,7 +29,6 @@ func NewUserRoutes(
 		router:              router,
 		logger:              logger,
 		userController:      userController,
-		middleware:          middleware,
 		jwtMiddleware:       jwtMiddleware,
 		trxMiddleware:       trxMiddleware,
 		rateLimitMiddleware: rateLimitMiddleware,
@@ -42,10 +38,10 @@ func NewUserRoutes(
 // Setup user routes
 func (i UserRoutes) Setup() {
 	i.logger.Zap.Info(" Setting up user routes")
-	users := i.router.Gin.Group("/users").Use(i.rateLimitMiddleware.HandleRateLimit(constants.BasicRateLimit, constants.BasicPeriod))
+	users := i.router.Gin.Group("/users")
 	{
 		users.GET("", i.userController.GetAllUsers)
 		users.POST("", i.trxMiddleware.DBTransactionHandle(), i.userController.CreateUser)
 	}
-	i.router.Gin.GET("/profile", i.jwtMiddleware.Handle(), i.userController.GetUserProfile)
+	i.router.Gin.GET("/profile", i.jwtMiddleware.Handle(), i.jwtMiddleware.ValidateAdminRoleJWT(), i.userController.GetUserProfile)
 }
